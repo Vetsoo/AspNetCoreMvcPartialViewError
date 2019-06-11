@@ -1,0 +1,133 @@
+﻿@model PartialViewsErrorTestApp.Models.Footer
+
+<div class="notifications sticky footer">
+	<aside id="notification--offline" role="alert" class="notification notification--root sticky footer notification--info" style="display: none;">
+		<section>
+			<div>
+				@Model.StaticContent
+			</div>
+		</section>
+	</aside>
+	@if (this.ViewBag.NewUser)
+  {
+	<aside id="cookie-disclaimer" role="alert" class="notification notification--root sticky footer notification--default">
+		<section>
+			<div>
+				<div data-test="cookie-disclaimer" class="cookie-disclaimer">
+					<svg symbol="icon-cookie" class="icon">
+						<use xlink:href="/portal/assets/sprite.svg#icon-cookie" href="/portal/assets/sprite.svg#icon-cookie"></use>
+					</svg>
+					<div>@Html.Raw(Model.CookieDisclaimerText)</div>
+				</div>
+			</div>
+			<button>
+				<svg symbol="icon-cancel" aria-label="Close" class="icon">
+					<use xlink:href="/portal/assets/sprite.svg#icon-cancel" href="/portal/assets/sprite.svg#icon-cancel"></use>
+				</svg>
+			</button>
+		</section>
+	</aside>
+  }
+</div>
+
+<footer class="portal-footer" id="footer">
+	<div class="portal-footer__top">
+		<div class="wrapper">
+			<div class="portal-footer__top__left">
+				<svg symbol="icon-logo" class="icon"><use xlink:href="/portal/assets/sprite.svg#icon-logo" href="/portal/assets/sprite.svg#icon-logo"></use></svg>
+				<div>
+					<a href="http://www.google.com" rel="noopener noreferrer" target="_blank" title="Google">
+						<svg width="194" height="32" viewBox="0 0 194 32" symbol="icon-google" class="icon"><use xlink:href="/portal/assets/sprite.svg#icon-google" href="/portal/assets/sprite.svg#icon-google"></use></svg>
+					</a>
+					<a href="https://www.facebook.be" rel="noopener noreferrer" target="_blank" title="Facebook">
+						<svg width="85" height="32" viewBox="0 0 85 32" symbol="icon-Facebook" class="icon"><use xlink:href="/portal/assets/sprite.svg#icon-Facebook" href="/portal/assets/sprite.svg#icon-Facebook"></use></svg>
+					</a>
+				</div>
+			</div>
+			<div class="portal-footer__top__center">
+				@if (Model.Links != null && Model.Links.Any())
+        {
+          foreach (var linkItem in Model.Links)
+          {
+				<div>
+					<h2>@linkItem.Title</h2>
+					<ul>
+						@if (linkItem.Links != null && linkItem.Links.Any())
+                {
+                  foreach (var linkSubItem in linkItem.Links)
+                  {
+                    var url = !string.IsNullOrEmpty(linkSubItem.InternalLink) ? @linkSubItem.InternalLink : @linkSubItem.ExternalLink;
+						<li>
+							@if (!linkSubItem.NewWindow)
+                      {
+							<a href="@url" title="@linkSubItem.Title">@linkSubItem.Title</a>
+                      }
+                      else
+                      {
+							<a href="@url" title="@linkSubItem.Title" target="_blank" rel="noopener noreferrer">@linkSubItem.Title</a>
+                      }
+						</li>
+                  }
+                }
+					</ul>
+				</div>
+          }
+        }
+			</div>
+			<div class="portal-footer__top__right">
+				<h2>Social Media</h2>
+				<a href="https://www.facebook.com" rel="noopener noreferrer" target="_blank" title="Facebook">
+					<svg symbol="icon-facebook" width="36" height="36" class="icon"><use xlink:href="/portal/assets/sprite.svg#icon-facebook" href="/portal/assets/sprite.svg#icon-facebook"></use></svg>
+				</a>
+				<a href="https://twitter.com" rel="noopener noreferrer" target="_blank" title="Twitter">
+					<svg symbol="icon-twitter" width="36" height="36" class="icon"><use xlink:href="/portal/assets/sprite.svg#icon-twitter" href="/portal/assets/sprite.svg#icon-twitter"></use></svg>
+				</a>
+				<a href="https://www.pinterest.com" rel="noopener noreferrer" target="_blank" title="Pinterest">
+					<svg symbol="icon-pinterest" width="36" height="36" class="icon"><use xlink:href="/portal/assets/sprite.svg#icon-pinterest" href="/portal/assets/sprite.svg#icon-pinterest"></use></svg>
+				</a>
+				<a href="http://www.linkedin.com/" rel="noopener noreferrer" target="_blank" title="Linkedin">
+					<svg symbol="icon-linkedin" width="36" height="36" class="icon"><use xlink:href="/portal/assets/sprite.svg#icon-linkedin" href="/portal/assets/sprite.svg#icon-linkedin"></use></svg>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="portal-footer__bot">
+		<div class="wrapper">
+			<div class="portal-footer__bot__left">
+				@if (!string.IsNullOrEmpty(Model.CompanyInfo))
+        {
+				@Html.Raw(Model.CompanyInfo)
+        }
+				<div>
+					@if (!string.IsNullOrEmpty(Model.BottomLinks))
+          {
+					@Html.Raw(Model.BottomLinks)
+          }
+				</div>
+			</div>
+			@if (this.ViewBag.NewUser)
+      {
+			<a href="#footer" class="footer__anchor">@Model.AnchorLinkText</a>
+      }
+			<div class="portal-footer__bot__right">
+				<aside class="footer__selector--language">
+					<button>@(Model.Locales.FirstOrDefault() ?? "English")</button>
+					<div class="footer__selector__menu">
+						<h4>Select your language</h4>
+						<ul>
+							@foreach (var locale in Model.Locales)
+              {
+							<li>
+								<a class="isActive" href="@locale">
+									<span>@locale</span>
+								</a>
+								}
+							</li>
+              }
+						</ul>
+					</div>
+				</aside>
+			</div>
+		</div>
+	</div>
+</footer>

@@ -1,0 +1,122 @@
+﻿@model PartialViewsErrorTestApp.Models.PortalHeader
+
+@{
+	var sprite = "/portal/assets/sprite.svg";
+}
+
+<header id="header" class="header">
+	<div>
+		<h1 class="header__title">
+			<a href="/" title="Dummy">
+				<svg symbol="icon-dummy-logo" class="icon">
+					<use id="logo-dots" xlink:href="@sprite#icon-dummy-logo-dots" href="@sprite#icon-dummy-logo-dots"></use>
+					<use id="logo-text" xlink:href="@sprite#icon-dummy-logo-text" href="@sprite#icon-dummy-logo-text"></use>
+				</svg>
+			</a>
+		</h1>
+		<div class="header__nav">
+			<aside class="header__nav__aside">
+				<div class="aside__sub" data-target="user">
+					<div class="aside__sub__container"></div>
+				</div>
+				<button data-emit="aside" data-data="user">
+					<svg symbol="icon-avatar" class="icon" title="User">
+						<use xlink:href="@sprite#icon-avatar" href="@sprite#icon-avatar"></use>
+					</svg>
+				</button>
+			</aside>
+			<button class="header__nav__button" data-open="Menu" data-close="Close" data-emit="nav">
+				<svg symbol="icon-menuOpen" title="Menu" class="icon">
+					<use id="header__nav__button--open" xlink:href="@sprite#icon-menuOpen" href="@sprite#icon-menuOpen"></use>
+					<use id="header__nav__button--close" xlink:href="@sprite#icon-menuClose" href="@sprite#icon-menuClose"></use>
+				</svg>
+			</button>
+			<nav class="nav">
+				<div class="nav__content">
+					<div class="wrapper">
+						<div class="nav__content__top">
+							<a href="/" class="nav__sub--button">
+								<svg symbol="icon-home" class="icon">
+									<use xlink:href="@sprite#icon-home" href="@sprite#icon-home"></use>
+								</svg>
+								<span>Home</span>
+							</a>
+							@foreach (var list in Model.Lists)
+							{
+								@if (list.List.Length > 0)
+								{
+									<article class="nav__sub" data-target="@list.Title.ToLower()">
+										<h2 data-emit="nav" data-data="@list.Title.ToLower()">
+											<svg symbol="icon-@list.Icon" class="icon">
+												<use class="title-icon" xlink:href="@sprite#icon-@list.Icon" href="@sprite#icon-@list.Icon"></use>
+												<use class="title-back" xlink:href="@sprite#icon-arrowBack" href="@sprite#icon-arrowBack"></use>
+											</svg>
+											<span>@list.Title</span>
+										</h2>
+										<ul class="wrapper">
+											@foreach (var el in list.List)
+											{
+												@if (!string.IsNullOrEmpty(el.InternalLink) || !string.IsNullOrEmpty(el.ExternalLink))
+												{
+													var url = !string.IsNullOrEmpty(el.InternalLink) ? el.InternalLink : el.ExternalLink;
+													<li>
+														@if (el.NewWindow)
+														{
+															<a href="@url" title="@el.Title" target="_blank" rel="noopener noreferrer">@el.Title</a>
+														}
+														else
+														{
+															<a href="@url" title="@el.Title">@el.Title</a>
+														}
+													</li>
+												}
+											}
+										</ul>
+									</article>
+									<button class="nav__sub--button" data-emit="nav" data-data="@list.Title.ToLower()">
+										<svg symbol="icon-@list.Icon" class="icon">
+											@{
+												var icon = sprite + "#icon-" + @list.Icon;
+											}
+											<use xlink:href="@icon" href="@icon"></use>
+										</svg>
+										<span>@list.Title</span>
+									</button>
+								}
+							}
+						</div>
+						<ul class="nav__content__bottom">
+							@foreach (var quickLink in Model.QuickLinks)
+							{
+								@if (!string.IsNullOrEmpty(quickLink.InternalLink) || !string.IsNullOrEmpty(quickLink.ExternalLink))
+								{
+									var url = !string.IsNullOrEmpty(quickLink.InternalLink) ? quickLink.InternalLink : quickLink.ExternalLink;
+									<li>
+										@if (quickLink.NewWindow)
+										{
+											<a href="@url" title="@quickLink.Title" target="_blank" rel="noopener noreferrer">
+												<svg symbol="icon-@quickLink.Icon" class="icon">
+													<use xlink:href="@sprite#icon-@quickLink.Icon" href="@sprite#icon-@quickLink.Icon"></use>
+												</svg>
+												<span>@quickLink.Title</span>
+											</a>
+										}
+										else
+										{
+											<a href="@url" title="@quickLink.Title">
+												<svg symbol="icon-@quickLink.Icon" class="icon">
+													<use xlink:href="@sprite#icon-@quickLink.Icon" href="@sprite#icon-@quickLink.Icon"></use>
+												</svg>
+												<span>@quickLink.Title</span>
+											</a>
+										}
+									</li>
+								}
+							}
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+</header>

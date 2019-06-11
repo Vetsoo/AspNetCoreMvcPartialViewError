@@ -1,0 +1,31 @@
+﻿@model PartialViewsErrorTestApp.Models.DynamicPageViewModel
+
+<!DOCTYPE html>
+<html lang=@Model.Language>
+@Html.Partial("_head", Model.Head)
+<partial name="_head" for="Head"/>
+<body>
+<main>
+	<partial name="_header" for="Header"/>
+	@if (!string.IsNullOrEmpty(Model.Content))
+	{
+		<div> @Html.Raw(Model.Content) </div>
+	}
+</main>
+<partial name="_footer" for="Footer"/>
+<partial name="_foot" for="Foot"/>
+
+
+<script type="text/javascript">
+	var utag_data = {
+		@foreach (var elem in Model.PageDataLayer)
+		{
+			@:"@elem.Key": "@elem.Value",
+		}
+	}
+</script>
+
+</body>
+</html>
+
+

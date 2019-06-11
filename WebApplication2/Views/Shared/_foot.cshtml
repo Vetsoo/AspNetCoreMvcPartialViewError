@@ -1,0 +1,23 @@
+﻿@using Newtonsoft.Json
+@model PartialViewsErrorTestApp.Models.Foot
+
+<script>
+	window.INITIAL_CONTEXT = {
+		publicPath: '/portal/',
+		config: @Html.Raw(Model.Config),
+		locales: @Html.Raw(JsonConvert.SerializeObject(Model.Locales)),
+		locale: '@Model.Language'
+	};
+</script>
+<script type="text/javascript" src="~/portal/vendors~client.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/portal/client.js" asp-append-version="true"></script>
+<script>
+	if ('serviceWorker' in navigator) {
+		window.addEventListener('load', () => {
+			navigator.serviceWorker
+				.register('/service-worker.js?locale=@Model.Language.ToLower()', { scope: '/' })
+				.then(registration => registration)
+				.catch(e => new Error(e));
+		});
+	}
+</script>

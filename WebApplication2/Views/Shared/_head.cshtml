@@ -1,0 +1,53 @@
+﻿@model PartialViewsErrorTestApp.Models.Head
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	@if (Model != null && Model.PageHeadTags != null && Model.PageHeadTags.Any())
+	{
+		foreach (var headTag in Model.PageHeadTags)
+		{
+			@Html.Raw(headTag)
+		}
+	}
+
+	@if (Model != null && Model.MetaDataTags != null && Model.MetaDataTags.Any())
+	{
+		foreach (var metaTag in Model.MetaDataTags)
+		{
+			@Html.Raw(metaTag)
+		}
+	}
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap">
+	<link href="~/portal/vendors~client.css" rel="preload" as="style" asp-append-version="true">
+	<link href="~/portal/vendors~client.css" rel="stylesheet" asp-append-version="true">
+	<link href="~/portal/client.css" rel="preload" as="style" asp-append-version="true">
+	<link href="~/portal/client.css" rel="stylesheet" asp-append-version="true">
+	<link href="~/portal/client.js" rel="preload" as="script" asp-append-version="true">
+	<link href="~/portal/vendors~client.js" rel="preload" as="script" asp-append-version="true">
+	<link rel="shortcut icon" href="~/portal/favicon.ico">
+	<link rel="icon" type="image/png" sizes="16x16" href="~/portal/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="~/portal/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="~/portal/favicon-96x96.png">
+	<link rel="manifest" href="~/portal/manifest.json" asp-append-version="true">
+	<meta name="theme-color" content="#002d69">
+	<meta name="apple-mobile-web-app-capable" content="no">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="portal">
+	<meta name="msapplication-TileImage" content="~/portal/icons/msapplication-icon-144x144.png">
+	<meta name="msapplication-TileColor" content="#002d69">
+	@if (Model != null && Model.AlternateUrls != null)
+	{
+		<link rel="canonical" href="@Model.AlternateUrls.FirstOrDefault(r => r.StartsWith("/en/"))">
+		foreach (var alternateUrl in Model.AlternateUrls)
+		{
+			<link rel="alternate" hreflang="@alternateUrl.Substring(1, 2)" href="@alternateUrl">
+		}
+	}
+	<link rel="apple-touch-icon" href="~/portal/icons/apple-touch-icon-152x152.png">
+	<link rel="mask-icon" href="~/portal/icons/safari-pinned-tab.svg" color="#002d69">
+
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+</head>
